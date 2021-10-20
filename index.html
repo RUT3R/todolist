@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista rzeczy do zrobienia</title>
 </head>
-<body>
+<body style="background-color: gray;">
     <h1>Lista zadań</h1>
     <h2>Cześć <span id="name"></span>, twoje zadania na dziś.</h2>
     <div id='taskList'>
 
     </div>
-    
     <h2>Dodaj nowe zadanie:</h2>
     <input type="text" name= "" id="task">
     <button onclick="addTask()">Dodaj</button>
@@ -23,12 +22,15 @@
             window.localStorage.setItem('name', name); //zapisz imię do magzynu
         }
         document.getElementById('name').innerHTML = window.localStorage.getItem('name');
-        document.getElementById('taskList').innerHTML = window.localStorage.getItem('task');
+        document.getElementById('taskList').innerHTML = JSON.parse(window.localStorage.getItem('task'));
 
         function addTask() {
             let task = document.getElementById('task').value;
-            window.localStorage.setItem('task' , task);
-            document.getElementById('taskList').innerHTML = window.localStorage.getItem('task');
+            let taskList = JSON.parse(window.localStorage.getItem('taskList'));
+            if(taskList === null) taskList = Array(); // zabezpieczenie na wypadek pustej listy
+            taskList.push(task);
+            window.localStorage.setItem('taskList' , JSON.stringify(taskList));
+            document.getElementById('taskList').innerHTML = window.localStorage.getItem('taskList');
         }
     </script>
     
